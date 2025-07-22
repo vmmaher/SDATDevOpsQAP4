@@ -1,0 +1,18 @@
+# Maven
+/target/
+
+# IDE
+/.idea/
+/.vscode/
+*.iml
+
+/target/
+src/main/resources/application.yml
+
+# Environment
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db
