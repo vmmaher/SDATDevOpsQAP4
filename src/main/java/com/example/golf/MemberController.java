@@ -26,9 +26,9 @@ public class MemberController {
 
     @GetMapping
     public List<Member> list(
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) String email,
-            @RequestParam(required = false) String membershipType
+            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "email", required = false) String email,
+            @RequestParam(name = "membershipType", required = false) String membershipType
     ) {
         return repo.findAllFiltered(name, email, membershipType);
     }
