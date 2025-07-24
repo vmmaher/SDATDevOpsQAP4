@@ -6,9 +6,6 @@
 /.vscode/
 *.iml
 
-/target/
-src/main/resources/application.yml
-
 # Environment
 .env
 .env.local
