@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -40,6 +41,23 @@ public class TournamentRepository {
 
     public List<Tournament> findAll() {
         return jdbc.query("SELECT * FROM tournaments", this::map);
+    }
+
+    public List<Tournament> findAllFiltered(LocalDate startDate, String location) {
+        StringBuilder sql = new StringBuilder("SELECT * FROM tournaments WHERE 1=1");
+        List<Object> params = new java.util.ArrayList<>();
+        
+        if (startDate != null) {
+            sql.append(" AND start_date = ?");
+            params.add(Date.valueOf(startDate));
+        }
+        
+        if (location != null && !location.isEmpty()) {
+            sql.append(" AND location LIKE ?");
+            params.add("%" + location + "%");
+        }
+        
+        return jdbc.query(sql.toString(), this::map, params.toArray());
     }
 
     private Tournament map(java.sql.ResultSet rs, int rowNum) throws java.sql.SQLException {
