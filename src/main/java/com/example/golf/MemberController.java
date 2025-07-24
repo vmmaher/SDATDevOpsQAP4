@@ -1,10 +1,12 @@
 package com.example.golf;
 
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -36,9 +38,11 @@ public class MemberController {
             @RequestParam(name = "name", required = false) String name,
             @RequestParam(name = "email", required = false) String email,
             @RequestParam(name = "membershipType", required = false) String membershipType,
-            @RequestParam(name = "phone", required = false) String phone
+            @RequestParam(name = "phone", required = false) String phone,
+            @RequestParam(name = "tournamentStartDate", required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate tournamentStartDate
     ) {
-        return repo.findAllFiltered(name, email, membershipType, phone);
+        return repo.findAllFiltered(name, email, membershipType, phone, tournamentStartDate);
     }
 
     @GetMapping("/{memberId}/tournaments")

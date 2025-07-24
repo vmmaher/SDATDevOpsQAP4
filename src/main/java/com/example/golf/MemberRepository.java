@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -44,27 +45,38 @@ public class MemberRepository {
         return jdbc.query("SELECT * FROM members", this::map);
     }
 
-    public List<Member> findAllFiltered(String name, String email, String membershipType, String phone) {
-        StringBuilder sql = new StringBuilder("SELECT * FROM members WHERE 1=1");
+    public List<Member> findAllFiltered(String name, String email, String membershipType, String phone, LocalDate tournamentStartDate) {
+        StringBuilder sql = new StringBuilder();
         List<Object> params = new java.util.ArrayList<>();
         
+        if (tournamentStartDate != null) {
+            // When filtering by tournament date, we need to join with tournaments
+            sql.append("SELECT DISTINCT m.* FROM members m ")
+               .append("JOIN member_tournament mt ON m.id = mt.member_id ")
+               .append("JOIN tournaments t ON t.id = mt.tournament_id ")
+               .append("WHERE t.start_date = ?");
+            params.add(Date.valueOf(tournamentStartDate));
+        } else {
+            sql.append("SELECT * FROM members WHERE 1=1");
+        }
+        
         if (name != null && !name.isEmpty()) {
-            sql.append(" AND name LIKE ?");
+            sql.append(" AND m.name LIKE ?");
             params.add("%" + name + "%");
         }
         
         if (email != null && !email.isEmpty()) {
-            sql.append(" AND email LIKE ?");
+            sql.append(" AND m.email LIKE ?");
             params.add("%" + email + "%");
         }
         
         if (membershipType != null && !membershipType.isEmpty()) {
-            sql.append(" AND membership_type = ?");
+            sql.append(" AND m.membership_type = ?");
             params.add(membershipType);
         }
         
         if (phone != null && !phone.isEmpty()) {
-            sql.append(" AND phone LIKE ?");
+            sql.append(" AND m.phone LIKE ?");
             params.add("%" + phone + "%");
         }
         
