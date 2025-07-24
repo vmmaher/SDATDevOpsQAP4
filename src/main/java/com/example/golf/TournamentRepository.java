@@ -72,4 +72,35 @@ public class TournamentRepository {
         t.setPrizeAmount(rs.getBigDecimal("prize_amount"));
         return t;
     }
+
+    public void addMemberToTournament(Long tournamentId, Long memberId) {
+        String sql = "INSERT IGNORE INTO member_tournament(tournament_id, member_id) VALUES(?,?)";
+        jdbc.update(sql, tournamentId, memberId);
+    }
+
+    public void removeMemberFromTournament(Long tournamentId, Long memberId) {
+        String sql = "DELETE FROM member_tournament WHERE tournament_id = ? AND member_id = ?";
+        jdbc.update(sql, tournamentId, memberId);
+    }
+
+    public List<Member> findMembersInTournament(Long tournamentId) {
+        String sql = "SELECT m.* FROM members m " +
+                     "JOIN member_tournament mt ON m.id = mt.member_id " +
+                     "WHERE mt.tournament_id = ?";
+        return jdbc.query(sql, this::mapMember, tournamentId);
+    }
+
+    private Member mapMember(java.sql.ResultSet rs, int rowNum) throws java.sql.SQLException {
+        Member m = new Member();
+        m.setId(rs.getLong("id"));
+        m.setName(rs.getString("name"));
+        m.setAddress(rs.getString("address"));
+        m.setEmail(rs.getString("email"));
+        m.setPhone(rs.getString("phone"));
+        java.sql.Date d = rs.getDate("start_date");
+        m.setStartDate(d != null ? d.toLocalDate() : null);
+        m.setDuration((Integer) rs.getObject("duration"));
+        m.setMembershipType(rs.getString("membership_type"));
+        return m;
+    }
 }

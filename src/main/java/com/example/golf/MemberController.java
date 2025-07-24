@@ -32,4 +32,9 @@ public class MemberController {
     ) {
         return repo.findAllFiltered(name, email, membershipType);
     }
+
+    @GetMapping("/{memberId}/tournaments")
+    public List<Tournament> getTournamentsForMember(@PathVariable("memberId") Long memberId) {
+        return repo.findTournamentsForMember(memberId);
+    }
 }

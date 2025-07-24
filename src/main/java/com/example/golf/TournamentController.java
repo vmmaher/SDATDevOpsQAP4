@@ -41,4 +41,26 @@ public class TournamentController {
     ) {
         return repo.findAllFiltered(startDate, location);
     }
+
+    // Add a member to a tournament
+    @PostMapping("/{tournamentId}/members/{memberId}")
+    public void addMemberToTournament(
+            @PathVariable("tournamentId") Long tournamentId,
+            @PathVariable("memberId") Long memberId) {
+        repo.addMemberToTournament(tournamentId, memberId);
+    }
+
+    // Remove a member from a tournament
+    @DeleteMapping("/{tournamentId}/members/{memberId}")
+    public void removeMemberFromTournament(
+            @PathVariable("tournamentId") Long tournamentId,
+            @PathVariable("memberId") Long memberId) {
+        repo.removeMemberFromTournament(tournamentId, memberId);
+    }
+
+    // Get all members in a tournament
+    @GetMapping("/{tournamentId}/members")
+    public List<Member> getMembersInTournament(@PathVariable("tournamentId") Long tournamentId) {
+        return repo.findMembersInTournament(tournamentId);
+    }
 }

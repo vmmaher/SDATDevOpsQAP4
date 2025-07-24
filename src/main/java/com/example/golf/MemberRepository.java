@@ -79,4 +79,25 @@ public class MemberRepository {
         m.setMembershipType(rs.getString("membership_type"));
         return m;
     }
+
+    public List<Tournament> findTournamentsForMember(Long memberId) {
+        String sql = 
+            "SELECT t.* FROM tournaments t " +
+            "JOIN member_tournament mt ON t.id = mt.tournament_id " +
+            "WHERE mt.member_id = ?";
+        return jdbc.query(sql, this::mapTournament, memberId);
+    }
+
+    private Tournament mapTournament(java.sql.ResultSet rs, int rowNum) throws java.sql.SQLException {
+        Tournament t = new Tournament();
+        t.setId(rs.getLong("id"));
+        java.sql.Date startDate = rs.getDate("start_date");
+        t.setStartDate(startDate != null ? startDate.toLocalDate() : null);
+        java.sql.Date endDate = rs.getDate("end_date");
+        t.setEndDate(endDate != null ? endDate.toLocalDate() : null);
+        t.setLocation(rs.getString("location"));
+        t.setEntryFee(rs.getBigDecimal("entry_fee"));
+        t.setPrizeAmount(rs.getBigDecimal("prize_amount"));
+        return t;
+    }
 }
