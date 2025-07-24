@@ -44,7 +44,7 @@ public class MemberRepository {
         return jdbc.query("SELECT * FROM members", this::map);
     }
 
-    public List<Member> findAllFiltered(String name, String email, String membershipType) {
+    public List<Member> findAllFiltered(String name, String email, String membershipType, String phone) {
         StringBuilder sql = new StringBuilder("SELECT * FROM members WHERE 1=1");
         List<Object> params = new java.util.ArrayList<>();
         
@@ -61,6 +61,11 @@ public class MemberRepository {
         if (membershipType != null && !membershipType.isEmpty()) {
             sql.append(" AND membership_type = ?");
             params.add(membershipType);
+        }
+        
+        if (phone != null && !phone.isEmpty()) {
+            sql.append(" AND phone LIKE ?");
+            params.add("%" + phone + "%");
         }
         
         return jdbc.query(sql.toString(), this::map, params.toArray());

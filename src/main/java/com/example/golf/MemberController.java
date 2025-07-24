@@ -1,6 +1,9 @@
 package com.example.golf;
 
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -21,16 +24,21 @@ public class MemberController {
 
     @GetMapping("/{id}")
     public Member get(@PathVariable("id") Long id) {
-        return repo.findById(id);
+        try {
+            return repo.findById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Member not found");
+        }
     }
 
     @GetMapping
     public List<Member> list(
             @RequestParam(name = "name", required = false) String name,
             @RequestParam(name = "email", required = false) String email,
-            @RequestParam(name = "membershipType", required = false) String membershipType
+            @RequestParam(name = "membershipType", required = false) String membershipType,
+            @RequestParam(name = "phone", required = false) String phone
     ) {
-        return repo.findAllFiltered(name, email, membershipType);
+        return repo.findAllFiltered(name, email, membershipType, phone);
     }
 
     @GetMapping("/{memberId}/tournaments")

@@ -1,0 +1,280 @@
+{
+	"info": {
+		"_postman_id": "640971ac-b974-4e31-986d-b95d2b5f6bd6",
+		"name": "Golf Club API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "46980093",
+		"_collection_link": "https://vmmaher-741754.postman.co/workspace/Golf-Club-API~e01a22cc-4ac1-45eb-8719-af43621f0bd5/collection/46980093-640971ac-b974-4e31-986d-b95d2b5f6bd6?action=share&source=collection_link&creator=46980093"
+	},
+	"item": [
+		{
+			"name": "Members",
+			"item": [
+				{
+					"name": "Example - Ann Smith",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Ann Smith\",\r\n  \"address\": \"123 Greenway\",\r\n  \"email\": \"ann@example.com\",\r\n  \"phone\": \"555-1234\",\r\n  \"startDate\": \"2025-07-01\",\r\n  \"duration\": 12,\r\n  \"membershipType\": \"gold\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/members",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All Members",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/members",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Member By ID - 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/members/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"members",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Members - Ann Smith",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/members?name=Ann Smith&email=ann@example.com",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"members"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Ann Smith"
+								},
+								{
+									"key": "email",
+									"value": "ann@example.com"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tournament",
+			"item": [
+				{
+					"name": "Example - Green Golf Club",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"startDate\": \"2025-08-15\",\r\n    \"endDate\": \"2025-08-17\",\r\n    \"location\": \"Green Golf Club\",\r\n    \"entryFee\": 150.00,\r\n    \"prizeAmount\": 5000.00\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/tournaments",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"tournaments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All Tournaments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/tournaments",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"tournaments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Tournament By ID - 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/tournaments/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"tournaments",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Tournaments - Green Golf Club",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/tournaments?location=Green Golf Club&startDate=2025-08-15",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"tournaments"
+							],
+							"query": [
+								{
+									"key": "location",
+									"value": "Green Golf Club"
+								},
+								{
+									"key": "startDate",
+									"value": "2025-08-15"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Members & Tournaments",
+			"item": [
+				{
+					"name": "Member 1 to Tournament 1",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/tournaments/1/members/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"tournaments",
+								"1",
+								"members",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All Members in a Tournament",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/tournaments/1/members",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"tournaments",
+								"1",
+								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All Tournamentrs for a Member",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/members/1/tournaments",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"members",
+								"1",
+								"tournaments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "A Member From A Tournament",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/tournaments/1/members/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"tournaments",
+								"1",
+								"members",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
