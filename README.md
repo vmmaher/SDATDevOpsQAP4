@@ -11,13 +11,9 @@ A simple REST API for managing golf club members and tournaments.
 ## Setup
 
 1. Copy `.env.example` to `.env` and fill in your database credentials.
-2. Start MySQL:
+2. Start MySQL and the API:
    ```bash
    docker compose up -d
-   ```
-3. Run the API:
-   ```bash
-   mvn spring-boot:run
    ```
    The API will be available at `http://localhost:8080`.
 
