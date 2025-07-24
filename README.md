@@ -1,6 +1,6 @@
 # Golf Club API
 
-Simple Spring Boot REST API for managing golf club members and tournaments.
+A simple REST API for managing golf club members and tournaments.
 
 ## Prerequisites
 
@@ -10,19 +10,59 @@ Simple Spring Boot REST API for managing golf club members and tournaments.
 
 ## Setup
 
-1. **Config files**
-   - Copy `src/main/resources/application-template.yml` → `src/main/resources/application.yml` and put your local DB password there.  
-   - Copy `.env.example` → `.env` and set `DB_PASS` (used by Docker MySQL).
-
-2. **Start MySQL with Docker**
+1. Copy `.env.example` to `.env` and fill in your database credentials.
+2. Start MySQL:
    ```bash
    docker compose up -d
-   docker compose ps
    ```
+3. Run the API:
+   ```bash
+   mvn spring-boot:run
+   ```
+   The API will be available at `http://localhost:8080`.
 
-3. Run the API locally
-    ```bash
-    mvn spring-boot:run
-    ```
-The app starts on http://localhost:8080.
-More to be added.
+## Endpoints
+
+### Members
+- `POST /members`
+- `GET /members`
+- `GET /members/{id}`
+- Search with query parameters:
+  - `name` (partial match)
+  - `membershipType` (exact)
+  - `phone` (exact)
+  - `tournamentStartDate` (YYYY-MM-DD)
+
+Example: `/members?name=Ann&membershipType=gold&phone=555-1234&tournamentStartDate=2025-09-10`
+
+### Tournaments
+- `POST /tournaments`
+- `GET /tournaments`
+- `GET /tournaments/{id}`
+- Search with query parameters:
+  - `startDate` (YYYY-MM-DD)
+  - `location` (partial match)
+
+Example: `/tournaments?startDate=2025-09-10&location=Club`
+
+### Linking Members to Tournaments
+- `POST /tournaments/{tid}/members/{mid}`
+- `GET /tournaments/{tid}/members`
+
+## Postman & Screenshots
+
+- Postman collection: `postman/Golf Club API.postman_collection.json`
+- Postman environment: `workspace.postman_globals.json`
+- Screenshots in: `screenshots/`
+
+## AWS RDS
+
+To switch to AWS RDS, update your `.env` with the RDS endpoint:
+
+```ini
+SPRING_DATASOURCE_URL=jdbc:mysql://your-rds-endpoint:3306/golf_club
+DB_USER=...
+DB_PASS=...
+```
+
+Then re-run `docker compose up` or `mvn spring-boot:run`.
