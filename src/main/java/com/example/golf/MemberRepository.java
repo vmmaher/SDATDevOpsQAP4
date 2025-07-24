@@ -44,6 +44,39 @@ public class MemberRepository {
         return jdbc.query("SELECT * FROM members", this::map);
     }
 
+    public List<Member> findAllFiltered(String name, String email, String membershipType) {
+        StringBuilder sql = new StringBuilder("SELECT * FROM members WHERE 1=1");
+        new Object() {
+            void append(String field, String value) {
+                if (value != null && !value.isEmpty()) {
+                    sql.append(" AND ").append(field).append(" LIKE ?");
+                }
+            }
+        }.append("name", name);
+        new Object() {
+            void append(String field, String value) {
+                if (value != null && !value.isEmpty()) {
+                    sql.append(" AND ").append(field).append(" LIKE ?");
+                }
+            }
+        }.append("email", email);
+        new Object() {
+            void append(String field, String value) {
+                if (value != null && !value.isEmpty()) {
+                    sql.append(" AND ").append(field).append(" = ?");
+                }
+            }
+        }.append("membership_type", membershipType);
+
+        // Build params list
+        List<Object> params = new java.util.ArrayList<>();
+        if (name != null && !name.isEmpty()) params.add("%" + name + "%");
+        if (email != null && !email.isEmpty()) params.add("%" + email + "%");
+        if (membershipType != null && !membershipType.isEmpty()) params.add(membershipType);
+
+        return jdbc.query(sql.toString(), this::map, params.toArray());
+    }
+
     private Member map(java.sql.ResultSet rs, int rowNum) throws java.sql.SQLException {
         Member m = new Member();
         m.setId(rs.getLong("id"));
